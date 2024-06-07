@@ -1,4 +1,4 @@
-<template>
+``<template>
 <Pages :title="title">
     <!-- Halaman utama setelah login -->
     <div class="row">
@@ -9,37 +9,29 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-9">
-            <div style="background-color: #B4B4B8;">
 
-                <!-- <div class="container bg-primary py-2" style="display: flex; align-items: center; justify-content: space-between;">
-                    <div style="display: flex; align-items: center;">
-                        <div style="display: flex; align-items: center;">
-                            <h5 class="text-light">{{ fullname }}</h5>
-                        </div>
+        <div class="col-md-9" style="position: relative; background-color: #B4B4B8; ">
+            <div class="input-group">
+                <template v-for="(value, key, index) in chat" :key="key">
+                    <div :class="value.tipe == 'android' ?'message received':'message sent'">
+                        <p>{{ value.chat }}</p>
                     </div>
-                </div> -->
-
-                <div class="input-group">
-
-                    <template v-for="(value, key, index) in chat" :key="key">
-                        <div :class="value.tipe == 'android' ?'message received':'message sent'">
-                            <p>{{ value.chat }}</p>
-                        </div>
-                    </template>
-                </div>
-
-                <div class="d-flex p-3 justify-content-end">
-                    <div class="me-3 w-100">
-                        <input v-model="value_inputChat" class="form-control" placeholder="Masukkan Pesan" fill="outline" />
-                    </div>
-                    <div>
-                        <button class="btn btn-primary" @click="storeDataFirestore()">
-                            Send
-                        </button>
-                    </div>
-                </div>
+                </template>
             </div>
+
+            <form @submit.prevent="storeDataFirestore()" class="d-flex p-3 w-100" style="position: sticky; bottom: 0; width: 100%; background-color: #B4B4B8;">
+                <div class="me-3 w-100">
+                    <input v-model="value_inputChat" class="form-control" placeholder="Masukkan Pesan" fill="outline" />
+                </div>
+                <div>
+                    <button class="btn btn-primary" type="submit">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send" viewBox="0 0 16 16">
+                            <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z" />
+                        </svg>
+                    </button>
+                </div>
+            </form>
+            
         </div>
     </div>
 
@@ -57,8 +49,7 @@ export default {
         this.getDataFromFirebase();
 
     },
-    mounted() {
-    },
+    mounted() {},
     data() {
         const auth = JSON.parse(localStorage.getItem('auth'));
         return {
@@ -70,8 +61,8 @@ export default {
             temp_docChat: {
                 id: 'paklaring'
             },
-            
-            fullname: auth.full_name,
+
+            fullname: auth.nama,
         }
     },
     methods: {
@@ -231,21 +222,19 @@ export default {
 }
 
 .input-group {
-    padding: 10px 10px 90px;
-    /* Menambahkan padding-bottom agar input-container tidak tertutup */
-    display: flex;
+    padding: 10px 12px;
     flex-direction: column;
-    /* Membalik urutan pesan agar dimulai dari bawah */
+    border-radius: 10px;
     overflow-y: auto;
-    height: calc(100vh - 160px);
-    /* Mengatur tinggi agar tidak terpotong oleh input-container */
+    height: 80vh;
+    display: flex;
 }
 
 .message {
-    position: relative;
-    margin: 10px 0;
+    max-width: 70%;
+    margin-bottom: 10px;
     padding: 10px;
-    max-width: 75%;
+    border-radius: 5px;
     word-wrap: break-word;
     display: inline-block;
 }

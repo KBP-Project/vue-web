@@ -10,16 +10,16 @@
                 <CDropdownMenu>
                     <CDropdownItem>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
+                            <input class="form-check-input" type="checkbox" value="KLIEN" id="filterKlien" v-model="filters.KLIEN">
+                            <label class="form-check-label" for="filterKlien">
                                 <i class='bx bx-buildings text-primary'> </i> KLIEN
                             </label>
                         </div>
                     </CDropdownItem>
                     <CDropdownItem>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
+                            <input class="form-check-input" type="checkbox" value="KARYAWAN" id="filterKaryawan" v-model="filters.KARYAWAN">
+                            <label class="form-check-label" for="filterKaryawan">
                                 <i class='bx bxs-user text-success'></i> KARYAWAN
                             </label>
                         </div>
@@ -44,12 +44,12 @@
                     </tr>
                 </thead>
                 <tbody class="table">
-                    <tr v-for="(rat, index) in ratings" :key="index" @click="openDetailRatings(rat)">
+                    <tr v-for="(rat, index) in filteredRatings" :key="index" @click="openDetailRatings(rat)">
                         <td class="text-center align-middle">{{ index + 1 }}</td>
                         <td class="text-center align-middle">{{ formatDateTime(rat.created_at) }}</td>
                         <td class="text-center align-middle">
-                            <i v-if="rat.nama_role == 'KLIEN'" class='bx bx-buildings bx-sm bx-tada-hover text-primary'></i> <!-- Tampilkan ikon building jika role adalah KLIEN -->
-                            <i v-else class='bx bxs-user bx-sm bx-tada-hover text-success'></i> <!-- Tampilkan ikon user jika role adalah KARYAWAN -->
+                            <i v-if="rat.nama_role == 'KLIEN'" class='bx bx-buildings bx-sm bx-tada-hover text-primary'></i>
+                            <i v-else class='bx bxs-user bx-sm bx-tada-hover text-success'></i>
                         </td>
                         <td class="align-middle">{{ rat.nama }}</td>
                         <td class="align-middle text-truncate" style="max-width: 110px;">{{ rat.customer_name }}</td>
@@ -60,7 +60,7 @@
                         </td>
                         <td class="align-middle text-truncate" style="max-width: 150px;">{{ rat.pesan_feedback.toUpperCase() }}</td>
                     </tr>
-                    <tr class="text-center" v-if="ratings.length == 0">
+                    <tr class="text-center" v-if="filteredRatings.length == 0">
                         <td colspan="7">Data tidak ditemukan</td>
                     </tr>
                 </tbody>
@@ -80,17 +80,15 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-
                 <form action="prevent.default" v-if="detailRatings != null">
                     <div class="form-group ">
-
                         <div class="row mb-4">
                             <div class="col-md-6 ms-auto">
                                 <label class="bold-label" for="tes">TANGGAL</label>
                                 <input v-model="detailRatings.created_at" type="text" class="form-control" readonly>
                             </div>
                             <div class="col-md-6 ms-auto">
-                                <label  class="bold-label" for="tes">ROLE</label>
+                                <label class="bold-label" for="tes">ROLE</label>
                                 <div class="role-input-wrapper">
                                     <input type="text" class="form-control role-input" readonly>
                                     <div class="role-icon">
@@ -99,7 +97,6 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
 
                         <div class="row mb-4">
@@ -137,7 +134,7 @@
                             <div class="col-md-6 ms-auto">
                                 <label class="bold-label" for="tes">PIC</label>
                                 <input v-model="detailRatings.nama_pic" type="text" class="form-control" readonly>
-                            </div>                     
+                            </div>
                         </div>
 
                         <div class="row mb-4">
@@ -157,6 +154,8 @@
 <!-- Modal Detail End -->
 </template>
 
+    
+    
 <script>
 import Pages from '@/components/template/Pages.vue';
 import axios from 'axios';
@@ -170,26 +169,33 @@ export default {
     data() {
         return {
             title: 'REPORT',
-
             data: null,
-
             ratings: [],
-
-            detailRatings: null
-
+            detailRatings: null,
+            filters: {
+                KLIEN: true,
+                KARYAWAN: true,
+            }
         }
     },
     mounted() {
         this.getData();
     },
+    computed: {
+        filteredRatings() {
+            return this.ratings.filter(rating => {
+                if (this.filters.KLIEN && rating.nama_role === 'KLIEN') return true;
+                if (this.filters.KARYAWAN && rating.nama_role === 'KARYAWAN') return true;
+                return false;
+            });
+        }
+    },
     methods: {
-
         openDetailRatings(rat) {
             this.detailRatings = rat;
             console.log(rat);
             this.$root.actionModal('modalDetail', 'show');
         },
-
         async getData() {
             try {
                 this.$root.loader = true;
@@ -198,29 +204,27 @@ export default {
                 console.log(this.ratings);
             } catch (error) {
                 console.error('An error occurred:', error);
-                alert('Failed to load data'); // Tampilkan pesan kesalahan jika gagal mengambil data
+                alert('Failed to load data');
             } finally {
                 this.$root.loader = false;
             }
         },
-
         formatDateTime(dateTimeString) {
             const date = new Date(dateTimeString);
-            const year = date.getFullYear().toString().slice(-2); // Mengambil dua digit terakhir tahun
-            const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Mendapatkan bulan dalam format dua digit
-            const day = date.getDate().toString().padStart(2, '0'); // Mendapatkan tanggal dalam format dua digit
+            const year = date.getFullYear().toString().slice(-2);
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            const day = date.getDate().toString().padStart(2, '0');
             return `${day}/${month}/${year}`;
         },
     }
 }
 </script>
-
+    
+    
 <style scoped>
 .table th {
     background-color: #0d6efd;
-    /* Warna latar belakang header kolom */
     color: rgb(255, 255, 255);
-    /* Warna teks header kolom */
 }
 
 thead th {
@@ -238,17 +242,13 @@ thead th {
 
 .rating-input {
     padding-left: 50px;
-    /* Adjust as needed to fit the icons */
-    /* Remove padding-right */
 }
 
 .rating-icons {
     position: absolute;
     left: 10px;
-    /* Adjust as needed to position the icons */
     display: flex;
     gap: 2px;
-    /* Space between stars */
 }
 
 .role-input-wrapper {
@@ -259,17 +259,14 @@ thead th {
 
 .role-input {
     padding-left: 30px;
-    /* Adjust as needed to fit the icon */
 }
 
 .role-icon {
     position: absolute;
     left: 10px;
-    /* Adjust as needed to position the icon */
     display: flex;
     align-items: center;
     pointer-events: none;
-    /* Ensure the icon does not interfere with input interactions */
 }
 
 .uppercase-text {

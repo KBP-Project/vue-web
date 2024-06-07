@@ -35,14 +35,34 @@
                     </div>
                 </div>
                 <!-- Per-page End -->
-
+                
+                <!-- <CFormSelect size="lg" class="mb-3" aria-label="Large select example" v-model="tipe_role" @change="getData()">
+                    <option value="R1">KLIEN</option>
+                    <option value="R2">KARYAWAN</option>
+                    <option value="R3">ALL ROLE</option>
+                </CFormSelect> -->
                 <!-- Button Filter -->
+
                 <CDropdown>
                     <CDropdownToggle color="primary"><i class='bx bxs-filter-alt text-light'></i></CDropdownToggle>
                     <CDropdownMenu>
+                        <!-- <CDropdownItem>
+
+                            <CFormCheck label="test" type="radio" name="flexRadioDisabled" v-model="tipe_role" value="R1" @click="()=>{tipe_role='R1';getData()}" />
+                        </CDropdownItem>
                         <CDropdownItem>
+
+                            <CFormCheck label="test2" type="radio" name="flexRadioDisabled" v-model="tipe_role" value="R2" @click="()=>{tipe_role='R2';getData()}" />
+                        </CDropdownItem>
+                        <CDropdownItem>
+
+                            <CFormCheck label="test3" type="radio" name="flexRadioDisabled" v-model="tipe_role" value="R3" @click="()=>{tipe_role='R3';getData()}" checked />
+                        </CDropdownItem> -->
+                        <CDropdownItem>
+
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                <input class="form-check-input" type="checkbox" v-model="tipe_role" id="flexCheckDefault" @click="getData('R1')">
+
                                 <label class="form-check-label" for="flexCheckDefault">
                                     <i class='bx bx-buildings text-primary'> </i> KLIEN
                                 </label>
@@ -50,28 +70,20 @@
                         </CDropdownItem>
                         <CDropdownItem>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                <input class="form-check-input" type="checkbox" v-model="tipe_role" id="flexCheckDefault" @click="getData('R2')">
                                 <label class="form-check-label" for="flexCheckDefault">
                                     <i class='bx bxs-user text-success'></i> KARYAWAN
                                 </label>
                             </div>
                         </CDropdownItem>
-                        <CDropdownItem>
+                        <!-- <CDropdownItem>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                <input class="form-check-input" type="checkbox" v-model="tipe_role" id="flexCheckDefault"  @click="()=>{tipe_role='R3';getData()}">
                                 <label class="form-check-label" for="flexCheckDefault">
-                                    <i class='bx bxs-envelope text-danger'></i> PESAN
+                                    <i class='bx bxs-user text-success'></i> KARYAWAN
                                 </label>
                             </div>
-                        </CDropdownItem>
-                        <CDropdownItem>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                <label class="form-check-label" for="flexCheckDefault">
-                                    <i class='bx bxs-phone-call  text-warning'></i> CALL
-                                </label>
-                            </div>
-                        </CDropdownItem>
+                        </CDropdownItem> -->
                     </CDropdownMenu>
                 </CDropdown>
                 <!-- Button Filter End -->
@@ -138,7 +150,7 @@
                                 <!-- Edit Button End -->
 
                                 <!-- Delete Button -->
-                                <button type="button" class="btn btn-danger mx-1"  @click="openModalDeleteSubCat(subcategory.id)">
+                                <button type="button" class="btn btn-danger mx-1" @click="openModalDeleteSubCat(subcategory.id)">
                                     <i class='bx bx-trash'></i>
                                 </button>
                                 <!-- Delete Button End -->
@@ -375,59 +387,59 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div v-if="editedSubCat != null" class="modal-body">
-                    <!-- Edit Kategori -->
-                    <div class="row mb-3">
-                        <label for="editSubKategori" class="col-sm-3 col-form-label">KATEGORI</label>
-                        <div class="col-sm-7">
-                            <input v-model="editedSubCat.nama_kategori" type="text" class="form-control" id="editSubKategori" readonly>
-                        </div>
+                <!-- Edit Kategori -->
+                <div class="row mb-3">
+                    <label for="editSubKategori" class="col-sm-3 col-form-label">KATEGORI</label>
+                    <div class="col-sm-7">
+                        <input v-model="editedSubCat.nama_kategori" type="text" class="form-control" id="editSubKategori" readonly>
                     </div>
-                    <!-- Edit Kategori End -->
+                </div>
+                <!-- Edit Kategori End -->
 
-                    <!-- Edit Sub Kategori -->
-                    <div class="row mb-3">
-                        <label for="editSubKategori" class="col-sm-3 col-form-label">SUB KATEGORI</label>
-                        <div class="col-sm-7">
-                            <input v-model="editedSubCat.nama_subkategori" type="text" class="form-control" id="editSubKategori">
-                        </div>
+                <!-- Edit Sub Kategori -->
+                <div class="row mb-3">
+                    <label for="editSubKategori" class="col-sm-3 col-form-label">SUB KATEGORI</label>
+                    <div class="col-sm-7">
+                        <input v-model="editedSubCat.nama_subkategori" type="text" class="form-control" id="editSubKategori">
                     </div>
-                    <!-- Edit Sub Kategori End -->
+                </div>
+                <!-- Edit Sub Kategori End -->
 
-                    <!-- Edit Deskripsi Jawaban -->
-                    <div class="row mb-3">
-                        <label class="col-sm-3 col-form-label">DESKRIPSI JAWABAN</label>
-                        <div class="col-sm-7">
-                            <div >
-                                <div class="row mb-3">
-                                    <div class="col-sm-12">
-                                        <textarea v-model="editedSubCat.answer_text" class="form-control" :placeholder="`Masukkan Deskripsi Jawaban ${indAnswer + 1}`" rows="8"></textarea>
-                                    </div>
-                                    <!-- <div class="col-sm-12 mt-2">
+                <!-- Edit Deskripsi Jawaban -->
+                <div class="row mb-3">
+                    <label class="col-sm-3 col-form-label">DESKRIPSI JAWABAN</label>
+                    <div class="col-sm-7">
+                        <div>
+                            <div class="row mb-3">
+                                <div class="col-sm-12">
+                                    <textarea v-model="editedSubCat.answer_text" class="form-control" :placeholder="`Masukkan Deskripsi Jawaban ${indAnswer + 1}`" rows="8"></textarea>
+                                </div>
+                                <!-- <div class="col-sm-12 mt-2">
                                         <button type="button" class="btn btn-danger btn-sm me-2" ><i class='bx bx-minus'></i></button>
                                         <button type="button" class="btn btn-success btn-sm" ><i class='bx bx-plus'></i></button>
                                     </div> -->
-                                </div>
                             </div>
                         </div>
                     </div>
-                    <!-- Edit Deskripsi Jawaban End -->
+                </div>
+                <!-- Edit Deskripsi Jawaban End -->
 
-                    <!-- Edit PIC -->
-                    <div class="row mb-3">
-                        <label class="col-sm-3 col-form-label">PIC</label>
-                        <div class="col-sm-7">
-                            <select v-model="editedSubCat.users_id" class="form-select" aria-label="Default select example">
-                                <option v-for="(input, key) in pics" :key="key" :value="input.id">{{ input.nama }}</option>
-                            </select>
-                        </div>
+                <!-- Edit PIC -->
+                <div class="row mb-3">
+                    <label class="col-sm-3 col-form-label">PIC</label>
+                    <div class="col-sm-7">
+                        <select v-model="editedSubCat.users_id" class="form-select" aria-label="Default select example">
+                            <option v-for="(input, key) in pics" :key="key" :value="input.id">{{ input.nama }}</option>
+                        </select>
                     </div>
-                    <!-- Edit PIC End -->
+                </div>
+                <!-- Edit PIC End -->
 
-                    <!-- Simpan Edit -->
-                    <div class="modal-footer d-flex justify-content-center">
-                        <button @click="editData()" type="submit"  class="btn btn-primary"><i class='bx bx-save bx-md'></i></button>
-                    </div>
-                    <!-- Simpan Edit End -->
+                <!-- Simpan Edit -->
+                <div class="modal-footer d-flex justify-content-center">
+                    <button @click="editData()" type="submit" class="btn btn-primary"><i class='bx bx-save bx-md'></i></button>
+                </div>
+                <!-- Simpan Edit End -->
 
             </div>
         </div>
@@ -444,7 +456,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="border border-success mx-auto p-4 mb-3">
+                <div class="border border-success mx-auto p-4 mb-3 " style="max-height:50vh; overflow-y: auto">
                     <h5>SYARAT & KETENTUAN</h5>
                     <ol>
                         <li>PASTIKAN ISI TERLEBIH DAHULU KATEGORI</li>
@@ -456,9 +468,13 @@
                         </li>
                         <li>COLOMN DENGAN TANDA <b>*</b> WAJIB UNTUK DIISI</li>
                         <li>FORMAT UNTUK PENGISIAN <b>KATEGORI</b> MENGGUNAKAN <b>KODE K1/K2...</b>DIMANA KODE KATEGORI MERUPAKAN KATEGORI YANG SUDAH DISI SEBELUMNYA</li>
+                        <ul>
+                            <li v-for="(item, index) in listCat">{{ item.code_kategori }} = {{ item.nama_kategori }}</li>
+                        </ul>
                         <li>FORMAT UNTUK PENGISIAN <b>PIC</b> MENGGUNAKAN ID 1/2/3...
-                            <dd>1 = AGNES ARIYANI</dd>
-                            <dd>2 = FITRIA NURLAILI</dd>
+                            <ul>
+                                <li v-for="(item, index) in pics">{{ item.id }} = {{ item.nama }}</li>
+                            </ul>
                         </li>
                     </ol>
                 </div>
@@ -469,8 +485,8 @@
                     <input type="file" class="form-control" ref="inputGroupFile02">
                 </div>
             </div>
-            <div class="modal-footer justify-content-start">
-                <button type="button" class="btn btn-success" @click="uploadExcelFile()"><i class='bx bx-import bx-flashing-hover'> UPLOAD FILE</i></button>
+            <div class="modal-footer justify-content-end">
+                <button type="button" class="btn btn-success" @click="uploadExcelFile()"><i class='bx bx-import bx-sm bx-flashing-hover'></i></button>
             </div>
         </div>
     </div>
@@ -599,15 +615,13 @@ export default {
 
             deleteSubCatId: null,
 
+            tipe_role: null,
+
             isCat: false,
 
             listCat: null,
 
-            isFiltered: false,
-
             per_page: 9,
-
-            showFilterOptions: false,
 
             modal: {
                 visible: false
@@ -617,7 +631,6 @@ export default {
     },
 
     methods: {
-
 
         // async getRoles() {
         //     try {
@@ -649,7 +662,13 @@ export default {
                 if (this.newDataCat.name && this.newDataCat.code && this.newDataCat.selectIcon && this.newDataCat.prioritas) {
                     await axios.post(`http://localhost:8001/api/categories/newCat`, this.newDataCat);
                     await this.getCat();
-                    alert('Sukses');
+                    Swal.fire({
+                        icon: "success",
+                        title: "Successfully",
+                        text: "Kategori Berhasil Di Tambah",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
                 } else {
                     alert('Data tidak lengkap');
                 }
@@ -670,6 +689,7 @@ export default {
                     params: {
                         page: page,
                         per_page: this.per_page,
+                        tipe: this.tipe_role
                     }
                 });
                 if (response.data.status) {
@@ -689,7 +709,7 @@ export default {
         async getCat() {
             try {
                 const code_role = 'all';
-                const response = await axios.get(`http://localhost:8001/api/categories/getCat/`+ code_role);
+                const response = await axios.get(`http://localhost:8001/api/categories/getCat/` + code_role);
                 this.isCat = true;
                 this.listCat = response.data.data;
                 console.log(this.listCat);
@@ -752,10 +772,17 @@ export default {
                 }
             } catch (error) {
                 console.error(error);
-                alert('Failed to add data'); // Tampilkan pesan kesalahan jika gagal menambahkan data
+                Swal.fire('Error!', 'Gagal Menghapus Data.', 'error');
             } finally {
                 this.modal.visible = false;
                 this.$root.loader = false;
+                Swal.fire({
+                    icon: "success",
+                    title: "Successfully",
+                    text: "Data Berhasil Di Tambah",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
             }
         },
 
@@ -771,7 +798,7 @@ export default {
             ansList.splice(idx, 1);
         },
 
-        openModalDeleteSubCat(id){
+        openModalDeleteSubCat(id) {
             this.deleteSubCatId = id;
             this.$root.actionModal('hapusSubKategori', 'show');
         },
@@ -785,7 +812,7 @@ export default {
                     const response = await axios.delete(`http://localhost:8001/api/categories/deleteData/${this.deleteSubCatId}`);
                     if (response.data.status) {
                         deleteSuccessful = true;
-                        
+
                         await this.getData(); // Panggil getCat untuk memperbarui daftar kategori
                     } else {
                         Swal.fire('Error!', 'Failed to delete sub category.', 'error');
@@ -809,7 +836,7 @@ export default {
             }
         },
 
-        openModalEditSubCat(subcategory){
+        openModalEditSubCat(subcategory) {
             this.editedSubCat = subcategory;
             console.log(subcategory);
             this.$root.actionModal('editModal', 'show');
@@ -824,8 +851,8 @@ export default {
                     const response = await axios.put(`http://localhost:8001/api/categories/editData/${this.editedSubCat.id}`, this.editedSubCat);
                     if (response.data.status) {
                         editSuccessful = true;
-                        
-                        await this.getData(); 
+
+                        await this.getData();
                     } else {
                         Swal.fire('Error!', 'Failed to edit category.', 'error');
                     }
@@ -846,7 +873,7 @@ export default {
                             timer: 1500
                         });
                     }
-                    
+
                 }
             }
         },

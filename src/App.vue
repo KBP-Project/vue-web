@@ -88,6 +88,7 @@ export default {
 
       id_chat:0,
       flagNotif: false,
+      api_path: 'http://localhost:8001/',
     };
   },
 

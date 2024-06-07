@@ -3,17 +3,34 @@
     <!-- Halaman utama setelah login -->
     <div class="col-md-12">
 
+        <div class="row mb-3">
+            <!-- PIC -->
+            <label for="inputPic" class="col-sm-2 col-form-label col-form-label-md">TAMBAH PIC</label>
+            <div class="col-sm-8 pb-3">
+                <select class="form-select form-select-md" aria-label="Small select example" id="inputPic">
+                    <option value="" disabled selected>Pilih PIC...</option>
+                </select>
+            </div>
+            <!-- PIC End -->
+
+            <!-- Simpan -->
+            <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-primary rounded-4" value="Simpan"><i class='bx bx-save bx-md'></i></button>
+            </div>
+            <!-- Simpan End -->
+        </div>
+
         <!-- Table -->
         <div style="overflow-x:auto; background-color: #0d6efd;">
             <table class="table table-striped table-hover">
-                <thead class="table text-center">
+                <thead class="table">
                     <tr>
-                        <th scope="col">#</th>
+                        <th class="text-center" scope="col">#</th>
                         <th scope="col">PIC</th>
                         <th scope="col">NICKNAME</th>
                         <th scope="col">EMAIL</th>
                         <th scope="col">NO. TELP</th>
-                        <th scope="col">AKSI</th>
+                        <th class="text-center"  scope="col">AKSI</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -28,6 +45,9 @@
                                 <div class="button btn-primary float-end mx-1">
                                     <button type="button" class="btn btn-primary mx-1" @click="openModalEditPic(user)">
                                         <i class='bx bx-edit'></i>
+                                    </button>
+                                    <button type="button" class="btn btn-danger mx-1">
+                                        <i class='bx bx-trash'></i>
                                     </button>
                                 </div>
                                 <!-- <button type="button" class="btn btn-danger mx-1"  data-bs-toggle="modal" data-bs-target="#deletePic">
