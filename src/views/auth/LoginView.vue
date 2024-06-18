@@ -2,16 +2,16 @@
     <div id="container">
         <div class="body-container">
             <div class="login-title center">
-                <img src="@/assets/img/logo_mtg.png" />
+                <img src="@/assets/img/logo_kbp.png" />
             </div>
             <div class="form-group">
-                <input class="form-control" type="email" v-model="email" placeholder="Email" />
+                <input class="form-control form-control-lg rounded-4 " type="email" v-model="email" placeholder="Email" />
             </div>
-            <div class="form-group" style="padding-bottom: 30px;">
-                <input class="form-control" type="password" v-model="password" placeholder="Kata Sandi" @keyup.enter="submit" />
+            <div class="form-group" style="padding-bottom: 40px;">
+                <input class="form-control form-control-lg rounded-4" type="password" v-model="password" placeholder="Kata Sandi" @keyup.enter="submit" />
             </div>
-            <div class="center">
-                <button class="btn btn-secondary" type="button" @click="submit">Masuk</button>
+            <div class="center ">
+                <button class="btn rounded-5 custom-btn" type="button" @click="submit">Masuk</button>
             </div>
         </div>
     </div>
@@ -117,14 +117,19 @@ export default {
     display: flex;
     place-items: center;
     height: 100vh;
+    background: var(--vt-color-step-1000);
+    background: linear-gradient(130deg, #137ecf 30%, #00135d 100%);
 }
 
 #container>* {
     margin: 0 auto;
     padding: 2em;
     background: var(--vt-color-step-950);
-    box-shadow: 0 1em 4em var(--vt-color-step-100);
+    box-shadow: 0 1em 4em var(--vt-color-step-50);
     border-radius: 2em;
+    height: 40vh;
+    width: 45vh;
+
 }
 
 .login-title {
@@ -135,4 +140,16 @@ export default {
     width: 100px;
     height: auto;
 }
+
+.custom-btn {
+    background: linear-gradient(147deg, #137ecf 50%, #00135d 100%);
+    color: white;
+    width: 120px; 
+    height: 50px; 
+    padding: 10px 20px;  
+    font-size: 16px;  
+    border: none; 
+    border-radius: 5px; 
+}
+
 </style>

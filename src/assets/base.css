@@ -41,6 +41,9 @@
   --vt-color-step-900: #e7e7e7;
   --vt-color-step-950: #f3f3f3;
 
+  --vt-color-step-1000: #005ca1;
+  --vt-color-step-1005: #478111;
+
   --vt-border-radius-form: 0.3em;
   --vt-height-form: 2.6em;
 }
@@ -113,7 +116,7 @@ body {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: rgb(80, 77, 77);
+  background: rgb(93, 88, 88);
   border-radius: 10px;
 }
 

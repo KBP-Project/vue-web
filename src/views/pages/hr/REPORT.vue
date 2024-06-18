@@ -6,7 +6,7 @@
         <!-- Button Filter -->
         <div class="mb-3">
             <CDropdown>
-                <CDropdownToggle color="primary"><i class='bx bxs-filter-alt text-light'></i></CDropdownToggle>
+                <CDropdownToggle  style="background-color: #005ca1;"><i class='bx bxs-filter-alt text-light'></i></CDropdownToggle>
                 <CDropdownMenu>
                     <CDropdownItem>
                         <div class="form-check">
@@ -30,7 +30,7 @@
         <!-- Button Filter End -->
 
         <!-- Table -->
-        <div style="overflow-x:auto;  background-color: #0d6efd;">
+        <div style="overflow-x:auto;  background-color: #005ca1;">
             <table class="table table-striped table-hover">
                 <thead class="table">
                     <tr>
@@ -223,7 +223,7 @@ export default {
     
 <style scoped>
 .table th {
-    background-color: #0d6efd;
+    background-color: #005ca1;
     color: rgb(255, 255, 255);
 }
 
@@ -231,7 +231,7 @@ thead th {
     font-weight: bold;
     height: 65px;
     vertical-align: middle;
-    border: 3px solid #5a88ff;
+    border: 3px solid #005ca1;
 }
 
 .rating-input-wrapper {

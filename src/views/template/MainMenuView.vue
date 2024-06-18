@@ -1,7 +1,7 @@
 <template>
   <div id="container" v-if="isLogin == 1">
     <div id="logo-container">
-      <img src="@/assets/img/logo_mtg.png" class="logo" />
+      <img src="@/assets/img/logo_kbp.png" class="logo" />
     </div>
     <ul>
       <template v-if="menu != null">
@@ -77,8 +77,7 @@ export default {
       all_menu: [
         // recruitment
         {
-
-          name: "MASTER",
+          name: "MASTER FAQ",
           menu: "MASTER",
           sub_menu_id: "all-menu-customer-services",
           sub_menu: [
@@ -182,7 +181,7 @@ export default {
   background-color: var(--vt-color-step-950);
   padding: 1em;
   border-radius: 1em;
-  /* box-shadow: 0 .5em 1em var(--vt-color-step-800); */
+  box-shadow: 0 .5em 2em .5em var(--vt-color-step-1000);
   height: calc(100% - 2em);
   overflow: auto;
   z-index: 99;
@@ -212,10 +211,10 @@ export default {
   margin: 0.2em 0;
   padding: 0.2em 0.4em;
   border-radius: 0 1em 1em 0;
-  font-size: 14px;
+  font-size: 19px;
   cursor: pointer;
-  background: linear-gradient(130deg, #C7C8CC 76%, #C7C8CC 100%);
-  color: var(--vt-color-step-100);
+  background: linear-gradient(130deg, #005ca1 60%, #00135d 100%);
+  color: var(--vt-color-step-950);
   text-transform: uppercase;
   font-weight: 400;
 }
@@ -254,11 +253,12 @@ export default {
   background: linear-gradient(130deg, #739072 76%, #add6b1 100%);
   border-radius: 0 1em 1em 1em;
   padding-left: 1em;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .logo {
-  padding: 40px 0;
+  padding: 20px 0;
+
 }
 
 .btnCollapse {
@@ -307,6 +307,6 @@ export default {
   /* background: linear-gradient(130deg, #739072 76%, #add6b1 100%); */
   border-radius: 0 1em 1em 1em;
   padding-left: 1em;
-  font-size: 12px;
+  font-size: 15px;
 }
 </style>

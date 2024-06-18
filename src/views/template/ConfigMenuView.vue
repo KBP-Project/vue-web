@@ -89,7 +89,7 @@ export default {
     top: 1em;
     right: 1em;
     /* background-color: red; */
-    background-color: var(--vt-color-step-950);
+    background-color: var(--vt-color-step-1000);
     padding: .5em;
     border-radius: .8em;
     /* box-shadow: 0 .5em 1em var(--vt-color-step-800); */
@@ -116,7 +116,7 @@ export default {
     /* margin: .2em 0; */
     padding: .2em .4em;
     border-radius: 1em 0 0 1em;
-    /* box-shadow: .4em .2em 1em var(--vt-color-step-800); */
+    /* box-shadow: .4em .2em 1em var(--vt-color-step-800);   */
     font-size: 14px;
     cursor: pointer;
     transition: all 0.5s ease-out;

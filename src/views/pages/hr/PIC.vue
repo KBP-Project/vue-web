@@ -5,23 +5,23 @@
 
         <div class="row mb-3">
             <!-- PIC -->
-            <label for="inputPic" class="col-sm-2 col-form-label col-form-label-md">TAMBAH PIC</label>
-            <div class="col-sm-8 pb-3">
-                <select class="form-select form-select-md" aria-label="Small select example" id="inputPic">
-                    <option value="" disabled selected>Pilih PIC...</option>
-                </select>
-            </div>
-            <!-- PIC End -->
-
-            <!-- Simpan -->
-            <div class="d-flex justify-content-center">
-                <button type="submit" class="btn btn-primary rounded-4" value="Simpan"><i class='bx bx-save bx-md'></i></button>
-            </div>
-            <!-- Simpan End -->
+            <form @submit.prevent="newAllPic()">
+                <label for="inputPic" class="col-sm-2 col-form-label col-form-label-md">TAMBAH PIC</label>
+                <div class="col-sm-12 d-flex align-items-center pb-3">
+                    <select class="form-select form-select-md me-2" aria-label="Small select example" id="inputPic" v-model="newPic.users_id">
+                        <option value="" disabled selected>Pilih PIC...</option>
+                        <option v-for="(input, key) in users" :key="key" :value="input.id">{{ input.nama }}</option>
+                    </select>
+                    <button type="submit" class="btn rounded-4" value="Simpan" style="background-color: #005ca1;">
+                        <i class='bx bx-save bx-md' style='color:#ffffff'></i>
+                    </button>
+                </div>
+                <!-- PIC End -->
+            </form>
         </div>
 
         <!-- Table -->
-        <div style="overflow-x:auto; background-color: #0d6efd;">
+        <div style="overflow-x:auto; background-color: #005ca1;">
             <table class="table table-striped table-hover">
                 <thead class="table">
                     <tr>
@@ -30,33 +30,30 @@
                         <th scope="col">NICKNAME</th>
                         <th scope="col">EMAIL</th>
                         <th scope="col">NO. TELP</th>
-                        <th class="text-center"  scope="col">AKSI</th>
+                        <th class="text-center" scope="col">AKSI</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(user, index) in users" :key="index">
+                    <tr v-for="(pic, index) in AllPic" :key="index">
                         <td class="text-center align-middle">{{ index + 1 }}</td>
-                        <td class="align-middle">{{ user.nama }}</td>
-                        <td class="align-middle">{{ user.nickname }}</td>
-                        <td class="align-middle">{{ user.email }}</td>
-                        <td class="align-middle">{{ user.nomor_hp }}</td>
+                        <td class="align-middle">{{ pic.nama }}</td>
+                        <td class="align-middle">{{ pic.nickname }}</td>
+                        <td class="align-middle">{{ pic.email }}</td>
+                        <td class="align-middle">{{ pic.nomor_hp }}</td>
                         <td class="text-center align-middle">
                             <div class="d-inline-flex bd-highlight">
                                 <div class="button btn-primary float-end mx-1">
-                                    <button type="button" class="btn btn-primary mx-1" @click="openModalEditPic(user)">
+                                    <button type="button" class="btn btn-primary mx-1" @click="openModalEditPic(pic)">
                                         <i class='bx bx-edit'></i>
                                     </button>
-                                    <button type="button" class="btn btn-danger mx-1">
+                                    <button type="button" class="btn btn-danger mx-1"  @click="openModalDeletePic(pic.id)">
                                         <i class='bx bx-trash'></i>
                                     </button>
                                 </div>
-                                <!-- <button type="button" class="btn btn-danger mx-1"  data-bs-toggle="modal" data-bs-target="#deletePic">
-                                    <i class='bx bx-trash'></i>
-                                </button> -->
                             </div>
                         </td>
                     </tr>
-                    <tr class="text-center" v-if="users.length == 0">
+                    <tr class="text-center" v-if="AllPic.length == 0">
                         <td colspan="6">Data tidak ditemukan</td>
                     </tr>
                 </tbody>
@@ -65,7 +62,6 @@
         <!-- Table end -->
 
     </div>
-
 </Pages>
 
 <!-- Modal Edit PIC -->
@@ -123,24 +119,24 @@
 </div>
 <!-- Modal Edit PIC End -->
 
-<!-- Modal Delete PIC -->
-<!-- <div class="modal fade" id="deletePic" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<!-- Modal Delete Pic -->
+<div class="modal fade" id="hapusPic" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="staticBackdropLabel">Delete</h1>
+                <h1 class="modal-title fs-5 text-danger text-center w-100" id="staticBackdropLabel">Delete</h1>
                 <button type="button" id="iniModalDelete" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                Yakin Ingin Menghapus Data?
+            <div class="modal-body d-flex justify-content-center">
+                Yakin Ingin Menghapus Pic?
             </div>
-            <div class="modal-footer  d-flex justify-content-center">
-                <button type="button" class="btn btn-danger" @click="deleteUser()"><i class='bx bx-trash'></i></button>
+            <div class="modal-footer d-flex justify-content-center">
+                <button type="button" class="btn btn-danger" @click="deletePic()"><i class='bx bx-trash'></i></button>
             </div>
         </div>
     </div>
-</div> -->
-<!-- Modal Delete PIC End -->
+</div>
+<!-- Modal Delete Pic End -->
 </template>
 
 <script>
@@ -154,8 +150,9 @@ export default {
     },
 
     async mounted() {
-        await this.getPic();
+        await this.getAllPic();
 
+        await this.getUsers();
     },
 
     data() {
@@ -164,29 +161,74 @@ export default {
 
             users: [],
 
+            AllPic: [],
+
+            newPic: {
+                users_id: null
+            },
+
+            deletePicId: null,
+
             editedPic: null
         }
     },
 
     methods: {
 
-        async getPic() {
+        async getAllPic() {
             try {
                 this.$root.loader = true;
-                const response = await axios.get(`http://localhost:8001/api/Pic/getPic`);
+                const response = await axios.get(`http://localhost:8001/api/AllPic/getAllPic`);
                 // console.log(re);
-                this.users = response.data.data; // Atur data yang diterima ke properti roles
-                console.log(this.users);
+                this.AllPic = response.data.data;
+                console.log(this.AllPic);
             } catch (error) {
                 console.error('An error occurred:', error);
-                alert('Failed to load data'); // Tampilkan pesan kesalahan jika gagal mengambil data
+                alert('Failed to load data');
             } finally {
                 this.$root.loader = false;
             }
         },
 
-        openModalEditPic(user) {
-            this.editedPic = user;
+        async getUsers() {
+            try {
+                const response = await axios.get(`http://localhost:8001/api/Users/getData`);
+                this.users = response.data.data;
+                console.log(this.users);
+            } catch (error) {
+                console.error('An error occurred:', error);
+                alert('Failed to load data');
+            } finally {}
+        },
+
+        async newAllPic() {
+            try {
+                this.$root.loader = true;
+                if (this.newPic.users_id) {
+                    await axios.post(`http://localhost:8001/api/AllPic/postAllPic`, this.newPic);
+                    await this.getAllPic();
+                    Swal.fire({
+                        icon: "success",
+                        title: "Successfully",
+                        text: "Pic Berhasil Di Tambah",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    // Reset form
+                    this.newPic.users_id = null;
+                } else {
+                    alert('Gagal Menambah Pic');
+                }
+            } catch (error) {
+                console.error('An error occurred:', error);
+                alert('Failed to load data');
+            } finally {
+                this.$root.loader = false;
+            }
+        },
+
+        openModalEditPic(pic) {
+            this.editedPic = pic;
             this.$root.actionModal('editModalPic', 'show');
         },
 
@@ -224,13 +266,50 @@ export default {
                 }
             }
         },
+
+        openModalDeletePic(id) {
+            this.deletePicId = id;
+            this.$root.actionModal('hapusPic', 'show');
+        },
+
+        async deletePic() {
+            if (this.deletePicId) {
+                let deleteSuccessful = false;
+
+                try {
+                    this.$root.loader = true;
+                    const response = await axios.delete(`http://localhost:8001/api/AllPic/deleteAllPic/${this.deletePicId}`);
+                    if (response.data.status) {
+                        deleteSuccessful = true;
+                        await this.getAllPic();
+                    } else {
+                        Swal.fire('Error!', 'Gagal Menghapus Pic.', 'error');
+                    }
+                } catch (error) {
+                    console.error('An error occurred:', error);
+                    Swal.fire('Error!', 'Gagal Menghapus Pic.', 'error');
+                } finally {
+                    this.$root.loader = false;
+                    this.$root.actionModal('hapusPic', 'hide');
+                    if (deleteSuccessful) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Successfully",
+                            text: "Pic Berhasil DiHAPUS",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    }
+                }
+            }
+        },
     }
 }
 </script>
 
 <style scoped>
 .table th {
-    background-color: #0d6efd;
+    background-color: #005ca1;
     /* Warna latar belakang header kolom */
     color: rgb(255, 255, 255);
     /* Warna teks header kolom */
@@ -240,6 +319,6 @@ thead th {
     font-weight: bold;
     height: 65px;
     vertical-align: middle;
-    border: 3px solid #5a88ff;
+    border: 3px solid #005ca1;
 }
 </style>

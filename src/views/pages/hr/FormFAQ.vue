@@ -5,14 +5,14 @@
 
         <div>
             <!-- Button Trigger Modal Kategori Form -->
-            <button type="button" class="btn btn-primary mx-4" @click="addCatModal=true">
-                <i class='bx bxs-plus-square bx-sm text-ligth'></i>
+            <button type="button" class="btn mx-4"  style="background-color: #005ca1;" @click="addCatModal=true">
+                <i class='bx bxs-plus-square bx-sm' style='color:#ffffff'></i>
             </button>
             <!-- Button Trigger Modal Kategori Form End -->
 
             <!-- Button Trigger Modal SubKategori Form -->
-            <button type="button" id="BtnTambah" class="btn btn-primary" @click="$root.actionModal('modalForm', 'show')">
-                <i class='bx bx-list-plus bx-sm text-ligth'></i>
+            <button type="button" id="BtnTambah" class="btn"  style="background-color: #005ca1;" @click="$root.actionModal('modalForm', 'show')">
+                <i class='bx bx-list-plus bx-sm' style='color:#ffffff'></i>
             </button>
             <!-- Button Trigger Modal SubKategori Form End -->
         </div>
@@ -44,22 +44,9 @@
                 <!-- Button Filter -->
 
                 <CDropdown>
-                    <CDropdownToggle color="primary"><i class='bx bxs-filter-alt text-light'></i></CDropdownToggle>
+                    <CDropdownToggle style="background-color: #005ca1;"><i class='bx bxs-filter-alt' style='color:#ffffff'></i></CDropdownToggle>
                     <CDropdownMenu>
-                        <!-- <CDropdownItem>
-
-                            <CFormCheck label="test" type="radio" name="flexRadioDisabled" v-model="tipe_role" value="R1" @click="()=>{tipe_role='R1';getData()}" />
-                        </CDropdownItem>
                         <CDropdownItem>
-
-                            <CFormCheck label="test2" type="radio" name="flexRadioDisabled" v-model="tipe_role" value="R2" @click="()=>{tipe_role='R2';getData()}" />
-                        </CDropdownItem>
-                        <CDropdownItem>
-
-                            <CFormCheck label="test3" type="radio" name="flexRadioDisabled" v-model="tipe_role" value="R3" @click="()=>{tipe_role='R3';getData()}" checked />
-                        </CDropdownItem> -->
-                        <CDropdownItem>
-
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" v-model="tipe_role" id="flexCheckDefault" @click="getData('R1')">
 
@@ -76,14 +63,6 @@
                                 </label>
                             </div>
                         </CDropdownItem>
-                        <!-- <CDropdownItem>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" v-model="tipe_role" id="flexCheckDefault"  @click="()=>{tipe_role='R3';getData()}">
-                                <label class="form-check-label" for="flexCheckDefault">
-                                    <i class='bx bxs-user text-success'></i> KARYAWAN
-                                </label>
-                            </div>
-                        </CDropdownItem> -->
                     </CDropdownMenu>
                 </CDropdown>
                 <!-- Button Filter End -->
@@ -99,7 +78,7 @@
         <!-- "Per-page" "Excel" & "Filter" End -->
 
         <!-- Table -->
-        <div style="overflow-x:auto;  background-color: #0d6efd;">
+        <div style="overflow-x:auto;  background-color: #005ca1;">
             <table class="table table-striped table-hover">
                 <thead class="table text-center ">
                     <tr>
@@ -295,7 +274,7 @@
                     <!-- Kategori End -->
 
                     <div v-for="(input, k) in formSubkategori" :key="k">
-                        <hr style="border: 2px solid #0d6efd;">
+                        <!-- <hr style="border: 2px solid;"> -->
 
                         <!-- Sub Kategori -->
                         <div class="row mb-3">
@@ -554,7 +533,7 @@ export default {
 
         // await this.getRoles();
 
-        await this.getPic();
+        await this.getAllPic();
 
         await this.loadIcon();
 
@@ -645,9 +624,9 @@ export default {
         //     } finally {}
         // },
 
-        async getPic() {
+        async getAllPic() {
             try {
-                const response = await axios.get(`http://localhost:8001/api/Users/getData`);
+                const response = await axios.get(`http://localhost:8001/api/AllPic/getAllPic`);
                 this.pics = response.data.data; // Atur data yang diterima ke properti roles
                 console.log(this.pics);
             } catch (error) {
@@ -722,9 +701,7 @@ export default {
         async postData() {
             try {
                 this.$root.loader = true;
-                // Ambil nilai kategori.role yang dipilih
                 const selectedRole = this.kategori.role;
-                // Ubah struktur postData agar sesuai dengan yang diharapkan oleh backend
 
                 const sliceDataKategori = this.formSubkategori.slice();
                 const dataFormKategori = sliceDataKategori.map(x => {
@@ -753,9 +730,7 @@ export default {
                 console.log(response.data);
                 if (response.data.status) {
 
-                    // Panggil metode getData untuk memperbarui data setelah menambahkan data baru
                     this.getData();
-                    // Setel properti kategori dan formSubkategori kembali ke nilai awal atau kosong
                     this.kategori = {
                         role: "",
                         idCat: "",
@@ -813,7 +788,7 @@ export default {
                     if (response.data.status) {
                         deleteSuccessful = true;
 
-                        await this.getData(); // Panggil getCat untuk memperbarui daftar kategori
+                        await this.getData(); 
                     } else {
                         Swal.fire('Error!', 'Failed to delete sub category.', 'error');
                     }
@@ -908,7 +883,6 @@ export default {
         },
 
         selectIcon(icon) {
-            // Menentukan tipe ikon berdasarkan nilai properti type_of_icon dari data ikon
             let iconType = '';
             if (icon.type_of_icon === 'REGULAR') {
                 iconType = 'bx-';
@@ -918,7 +892,6 @@ export default {
                 iconType = 'bxl-';
             }
 
-            // Menyimpan nama ikon dalam format string yang sesuai dengan tipe ikon
             this.newDataCat.selectIcon = `bx ${iconType}${icon.name}`;
             this.$root.actionModal('modalShowIcons', 'hide');
         },
@@ -945,10 +918,8 @@ export default {
                 return response.json();
             }).then(data => {
                 console.log('File uploaded successfully:', data);
-                // Handle success
             }).catch(error => {
                 console.error('Error uploading file:', error);
-                // Handle error
             });
         },
 
@@ -1003,11 +974,10 @@ export default {
 
             const excelRows = await this.readExcelFileAsync(excelVal);
 
-            // Kirim data ke server menggunakan Axios
             try {
                 const response = await axios.post('http://localhost:8001/api/categories/uploadExcel', {
                     excelRows: excelRows
-                }); // Sesuaikan dengan endpoint yang tepat
+                }); 
                 console.log(response.data); // Tampilkan respon dari server jika perlu
 
                 await this.getData();
@@ -1025,14 +995,11 @@ export default {
 <style scoped>
 .align-items-center .btn-group {
     margin-left: 8px;
-    /* Menambahkan sedikit jarak antara "Tampilkan" dan elemen per_page */
 }
 
 .form-check-inline {
     margin-left: 10px;
-    /* Tambahkan margin kanan untuk memberikan jarak antara tombol radio */
     margin-right: 40px;
-    /* Tambahkan margin kanan untuk memberikan jarak antara tombol radio */
 }
 
 .dropdown-toggle-no-caret::after {
@@ -1042,13 +1009,11 @@ export default {
 textarea {
     height: auto;
     min-height: 100px;
-    /* Atur tinggi minimum jika diperlukan */
     overflow-y: auto;
-    /* Tampilkan scrollbar jika konten melebihi tinggi textarea */
 }
 
 .table th {
-    background-color: #0d6efd;
+    background-color: var(--vt-color-step-1000);
     /* Warna latar belakang header kolom */
     color: rgb(255, 255, 255);
     /* Warna teks header kolom */
@@ -1058,6 +1023,6 @@ thead th {
     font-weight: bold;
     height: 65px;
     vertical-align: middle;
-    border: 3px solid #5a88ff;
+    border: 3px solid #005ca1;
 }
 </style>

@@ -6,7 +6,7 @@
             <!-- Button Filter -->
             <div class="mb-3">
                 <CDropdown>
-                    <CDropdownToggle color="primary"><i class='bx bxs-filter-alt text-light'></i></CDropdownToggle>
+                    <CDropdownToggle style="background-color: #005ca1;"><i class='bx bxs-filter-alt text-light'></i></CDropdownToggle>
                     <CDropdownMenu>
                         <CDropdownItem>
                             <div class="form-check">
@@ -30,16 +30,16 @@
             <!-- Button Filter End -->
     
             <!-- Table -->
-            <div style="overflow-x:auto; background-color: #0d6efd;">
+            <div style="overflow-x:auto; background-color: #005ca1;">
                 <table class="table table-striped table-hover">
-                    <thead class="table text-center">
+                    <thead class="table">
                         <tr>
                             <!-- <th scope="col">#</th> -->
                             <!-- <th scope="col">IKON</th> -->
-                            <th scope="col">ROLE</th>
+                            <th scope="col" class="text-center align-middle">ROLE</th>
                             <th scope="col">KATEGORI</th>
                             <!-- <th scope="col">PRIORITAS</th> -->
-                            <th scope="col">AKSI</th>
+                            <th scope="col" class="text-center align-middle">AKSI</th>
                         </tr>
                     </thead>
                     <tbody class="table">
@@ -59,7 +59,7 @@
                                             <i class='bx bx-edit'></i>
                                         </button>
                                     </div>
-                                    <button type="button" class="btn btn-danger mx-1" data-bs-toggle="modal" @click="openModalDeleteCat(cat.id)">
+                                    <button type="button" class="btn btn-danger mx-1" @click="openModalDeleteCat(cat.id)">
                                         <i class='bx bx-trash'></i>
                                     </button>
                                 </div>
@@ -267,7 +267,7 @@
     
     <style scoped>
     .table th {
-        background-color: #0d6efd;
+        background-color: #005ca1;
         color: rgb(255, 255, 255);
     }
     
@@ -275,7 +275,7 @@
         font-weight: bold;
         height: 65px;
         vertical-align: middle;
-        border: 3px solid #5a88ff;
+        border: 3px solid #005ca1;
     }
     </style>
     

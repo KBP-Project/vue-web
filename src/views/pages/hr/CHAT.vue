@@ -10,7 +10,7 @@
             </div>
         </div>
 
-        <div class="col-md-9" style="position: relative; background-color: #B4B4B8; ">
+        <div class="col-md-9" style="position: relative; background-color: #005ca1; ">
             <div class="input-group">
                 <template v-for="(value, key, index) in chat" :key="key">
                     <div :class="value.tipe == 'android' ?'message received':'message sent'">
@@ -19,12 +19,12 @@
                 </template>
             </div>
 
-            <form @submit.prevent="storeDataFirestore()" class="d-flex p-3 w-100" style="position: sticky; bottom: 0; width: 100%; background-color: #B4B4B8;">
+            <form @submit.prevent="storeDataFirestore()" class="d-flex p-3 w-100" style="position: sticky; bottom: 0; width: 100%; background-color: #005ca1;">
                 <div class="me-3 w-100">
                     <input v-model="value_inputChat" class="form-control" placeholder="Masukkan Pesan" fill="outline" />
                 </div>
                 <div>
-                    <button class="btn btn-primary" type="submit">
+                    <button class="btn btn-secondary" type="submit">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send" viewBox="0 0 16 16">
                             <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z" />
                         </svg>
@@ -226,7 +226,7 @@ export default {
     flex-direction: column;
     border-radius: 10px;
     overflow-y: auto;
-    height: 80vh;
+    height: 85vh;
     display: flex;
 }
 
