@@ -2,32 +2,60 @@
     <Pages :title="title">
         <!-- Halaman utama setelah login -->
         <div class="col-md-12">
+
+            <!-- Button Trigger Modal Kategori Form -->
+            <button type="button" class="btn"  style="background-color: #005ca1;">
+                <i class='bx bxs-plus-square bx-sm' style='color:#ffffff'></i>
+            </button>
+            <!-- Button Trigger Modal Kategori Form End -->
+
+            <hr>
     
-            <!-- Button Filter -->
-            <div class="mb-3">
+                <!-- "Per-page" "Excel" & "Filter" -->
+        <div class="col-md-12">
+            <div class="d-flex justify-content-between mb-2 align-items-center">
+
+                <!-- Per-page -->
+                <div class="d-flex me-auto p-2 align-items-center">
+                    <label for="per_page_select" class="form-label me-2">Tampilkan:</label>
+                    <div class="btn-group">
+                        <select class="form-select" style="min-width: 60px" aria-label="Default select example">
+                            <option value="9">9</option>
+                            <option value="18">18</option>
+                            <option value="27">27</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- Per-page End -->
+
+                <!-- Button Filter -->
                 <CDropdown>
-                    <CDropdownToggle style="background-color: #005ca1;"><i class='bx bxs-filter-alt text-light'></i></CDropdownToggle>
+                    <CDropdownToggle style="background-color: #005ca1;"><i class='bx bxs-filter-alt' style='color:#ffffff'></i></CDropdownToggle>
                     <CDropdownMenu>
                         <CDropdownItem>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" v-model="filters.klien" id="filterKlien" @change="applyFilter">
-                                <label class="form-check-label" for="filterKlien">
-                                    <i class='bx bx-buildings text-primary'></i> KLIEN
+                                <input class="form-check-input" type="checkbox" v-model="tipe_role" id="flexCheckDefault" @click="getData('R1')">
+
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    <i class='bx bx-buildings text-primary'> </i> KLIEN
                                 </label>
                             </div>
                         </CDropdownItem>
                         <CDropdownItem>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" v-model="filters.karyawan" id="filterKaryawan" @change="applyFilter">
-                                <label class="form-check-label" for="filterKaryawan">
+                                <input class="form-check-input" type="checkbox" v-model="tipe_role" id="flexCheckDefault" @click="getData('R2')">
+                                <label class="form-check-label" for="flexCheckDefault">
                                     <i class='bx bxs-user text-success'></i> KARYAWAN
                                 </label>
                             </div>
                         </CDropdownItem>
                     </CDropdownMenu>
                 </CDropdown>
+                <!-- Button Filter End -->
+
             </div>
-            <!-- Button Filter End -->
+        </div>
+        <!-- "Per-page" & "Filter" End -->
     
             <!-- Table -->
             <div style="overflow-x:auto; background-color: #005ca1;">
@@ -35,23 +63,27 @@
                     <thead class="table">
                         <tr>
                             <!-- <th scope="col">#</th> -->
-                            <!-- <th scope="col">IKON</th> -->
+                            <th scope="col" class="text-center align-middle">IKON</th>
                             <th scope="col" class="text-center align-middle">ROLE</th>
-                            <th scope="col">KATEGORI</th>
+                            <th scope="col" class="text-center align-middle">KATEGORI</th>
                             <!-- <th scope="col">PRIORITAS</th> -->
+                            <th scope="col" class="text-center align-middle">DIBUAT</th>
+                            <th scope="col" class="text-center align-middle">DIUPDATE</th>
                             <th scope="col" class="text-center align-middle">AKSI</th>
                         </tr>
                     </thead>
                     <tbody class="table">
                         <tr v-for="(cat, index) in filteredCat" :key="index">
                             <!-- <td class="text-center align-middle">{{ index + 1 }}</td> -->
-                            <!-- <td class="text-center align-middle">{{ cat.icon }}</td> -->
+                            <td class="text-center align-middle"><i class="bx-sm" :class="cat.icon"></i></td>
                             <td class="text-center align-middle">
                                 <i v-if="cat.code_role === 'R1'" class='bx bx-buildings bx-sm bx-tada-hover text-primary'></i>
                                 <i v-else class='bx bxs-user bx-sm bx-tada-hover text-success'></i>
                             </td>
-                            <td class="align-middle">{{ cat.nama_kategori }}</td>
+                            <td class="text-center align-middle">{{ cat.nama_kategori }}</td>
                             <!-- <td class="text-center align-middle">{{ cat.prioritas }}</td> -->
+                            <td class="text-center align-middle text-nowrap">{{ formatDateTime(cat.created_at) }}</td>
+                            <td class="text-center align-middle text-nowrap ">{{ formatDateTime(cat.updated_at) }}</td>  
                             <td class="text-center align-middle">
                                 <div class="d-inline-flex bd-highlight">
                                     <div class="button btn-primary float-end mx-1">
@@ -72,6 +104,31 @@
                 </table>
             </div>
             <!-- Table end -->
+
+           <!-- Pagination -->
+            <nav class="mt-2">
+                <ul class="pagination">
+                    <!-- Tombol Previous -->
+                    <li class="page-item disabled">
+                        <button class="page-link">
+                            <span aria-hidden="true">&laquo;</span>
+                        </button>
+                    </li>
+
+                    <!-- Nomor Halaman -->
+                    <li class="page-item active"><button class="page-link">1</button></li>
+                    <li class="page-item"><button class="page-link">2</button></li>
+
+                    <!-- Tombol Next -->
+                    <li class="page-item">
+                        <button class="page-link">
+                            <span aria-hidden="true">&raquo;</span>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+            <!-- Pagination End -->
+
     
         </div>
     </Pages>
@@ -256,6 +313,14 @@
                         }
                     }
                 }
+            },
+
+            formatDateTime(dateTimeString) {
+            const date = new Date(dateTimeString);
+            const year = date.getFullYear().toString(); 
+            const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Mendapatkan bulan dalam format dua digit
+            const day = date.getDate().toString().padStart(2, '0'); // Mendapatkan tanggal dalam format dua digit
+            return `${day}/${month}/${year}`;
             },
     
             applyFilter() {

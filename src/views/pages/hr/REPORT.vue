@@ -3,31 +3,37 @@
     <!-- Halaman utama setelah login -->
     <div class="col-md-12">
 
-        <!-- Button Filter -->
-        <div class="mb-3">
-            <CDropdown>
-                <CDropdownToggle  style="background-color: #005ca1;"><i class='bx bxs-filter-alt text-light'></i></CDropdownToggle>
-                <CDropdownMenu>
-                    <CDropdownItem>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="KLIEN" id="filterKlien" v-model="filters.KLIEN">
-                            <label class="form-check-label" for="filterKlien">
-                                <i class='bx bx-buildings text-primary'> </i> KLIEN
-                            </label>
-                        </div>
-                    </CDropdownItem>
-                    <CDropdownItem>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="KARYAWAN" id="filterKaryawan" v-model="filters.KARYAWAN">
-                            <label class="form-check-label" for="filterKaryawan">
-                                <i class='bx bxs-user text-success'></i> KARYAWAN
-                            </label>
-                        </div>
-                    </CDropdownItem>
-                </CDropdownMenu>
-            </CDropdown>
+      <!-- "Per-page" & "Filter" -->
+<div class="col-md-12">
+    <div class="d-flex justify-content-between mb-3 align-items-center flex-wrap">
+
+        <!-- Per-page -->
+        <div class="d-flex align-items-center">
+            <label for="per_page_select" class="form-label me-2 mb-0">Tampilkan:</label>
+            <select class="form-select" style="height: 42px;" aria-label="Per Page">
+                <option value="9">9</option>
+                <option value="18">18</option>
+                <option value="27">27</option>
+            </select>
         </div>
-        <!-- Button Filter End -->
+        <!-- Per-page End -->
+
+        <!-- Filter Tanggal -->
+        <div class="d-flex align-items-center col-lg-6">
+            <input type="date" class="form-control me-2" style="height: 42px;" v-model="filterDateStart">
+            <span class="me-2">S/D</span>
+            <input type="date" class="form-control me-2" style="height: 42px;" v-model="filterDateEnd">
+            <button class="btn px-3 py-2" style="background-color: #005ca1; color: #ffffff;">
+                Filter
+            </button>
+        </div>
+        <!-- Filter Tanggal End -->
+
+    </div>
+</div>
+<!-- "Per-page" & "Filter" End -->
+
+
 
         <!-- Table -->
         <div style="overflow-x:auto;  background-color: #005ca1;">
@@ -67,6 +73,30 @@
             </table>
         </div>
         <!-- Table end -->
+
+        <!-- Pagination -->
+        <nav class="mt-2">
+                <ul class="pagination">
+                    <!-- Tombol Previous -->
+                    <li class="page-item disabled">
+                        <button class="page-link">
+                            <span aria-hidden="true">&laquo;</span>
+                        </button>
+                    </li>
+
+                    <!-- Nomor Halaman -->
+                    <li class="page-item active"><button class="page-link">1</button></li>
+                    <li class="page-item"><button class="page-link">2</button></li>
+
+                    <!-- Tombol Next -->
+                    <li class="page-item">
+                        <button class="page-link">
+                            <span aria-hidden="true">&raquo;</span>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+            <!-- Pagination End -->
 
     </div>
 </Pages>

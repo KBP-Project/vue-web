@@ -83,36 +83,36 @@
                 <thead class="table text-center ">
                     <tr>
                         <!-- <th scope="col">#</th> -->
-                        <!-- <th scope="col">IKON</th> -->
-                        <th scope="col">PRIORITAS</th>
+                        <th scope="col">ROLE</th>
+                        <th scope="col">IKON</th>
+                        <!-- <th scope="col">PRIORITAS</th> -->
                         <th scope="col">KATEGORI</th>
                         <th scope="col">SUB KATEGORI</th>
                         <th scope="col">DESKRIPSI JAWABAN</th>
                         <th scope="col">PIC</th>
                         <th scope="col">DIBUAT</th>
-                        <th scope="col">DIUPDATE</th>
-                        <th scope="col">ROLE</th>
+                        <th scope="col">DIUPDATE</th>     
                         <th scope="col">AKSI</th>
                     </tr>
                 </thead>
                 <tbody class="table">
                     <tr v-for="(subcategory, index) in items.data" :key="index">
                         <!-- <td class="text-center align-middle">{{ (items.current_page - 1) * items.per_page + index+1 }}</td> -->
-                        <!-- <td class="text-center align-middle"><i class="bx-sm" :class="subcategory.icon"></i></td> -->
                         <td class="text-center align-middle">
+                            <i v-if="subcategory.nama_role == 'KLIEN'" class='bx bx-buildings bx-sm bx-tada-hover text-primary'></i> 
+                            <i v-else class='bx bxs-user bx-sm bx-tada-hover text-success'></i> 
+                        </td>
+                        <td class="text-center align-middle"><i class="bx-sm" :class="subcategory.icon"></i></td>
+                        <!-- <td class="text-center align-middle">
                             <i v-if="subcategory.prioritas.toUpperCase() == 'TEXT'" class="bx bxs-envelope bx-sm bx-tada-hover text-danger"></i>
                             <i v-else-if="subcategory.prioritas.toUpperCase() == 'CALL'" class="bx bxs-phone-call bx-sm bx-tada-hover text-warning"></i>
-                        </td>
+                        </td> -->
                         <td class="align-middle text-nowrap ">{{ subcategory.nama_kategori }}</td>
                         <td class="align-middle text-truncate" style="max-width: 200px;">{{ subcategory.nama_subkategori }}</td>
                         <td class="align-middle text-truncate" style="max-width: 500px;">{{ subcategory.answer_text }}</td>
                         <td class="align-middle text-nowrap ">{{ subcategory.nickname }}</td>
                         <td class="text-center align-middle text-nowrap">{{ formatDateTime(subcategory.created_at) }}</td>
-                        <td class="text-center align-middle text-nowrap ">{{ formatDateTime(subcategory.updated_at) }}</td>
-                        <td class="text-center align-middle">
-                            <i v-if="subcategory.nama_role == 'KLIEN'" class='bx bx-buildings bx-sm bx-tada-hover text-primary'></i> <!-- Tampilkan ikon building jika role adalah KLIEN -->
-                            <i v-else class='bx bxs-user bx-sm bx-tada-hover text-success'></i> <!-- Tampilkan ikon user jika role adalah KARYAWAN -->
-                        </td>
+                        <td class="text-center align-middle text-nowrap ">{{ formatDateTime(subcategory.updated_at) }}</td>                        
                         <td class="text-center align-middle">
                             <div class="d-inline-flex bd-highlight">
 
@@ -282,6 +282,13 @@
                             <div class="col-sm-7">
                                 <input v-model="input.nama_subkategori" type="text" class="form-control" id="inputSubKategori" placeholder="Masukkan Sub Kategori...">
                             </div>
+
+                        <!-- +- -->
+                            <div class="col-md-2 d-flex align-items-center">
+                                <button type="button" class="btn btn-danger me-2" @click="removeForm(k)" v-if="formSubkategori.length > 1"><i class='bx bxs-checkbox-minus bx-sm'></i></button>
+                                <button type="button" class="btn btn-success" @click="addForm(k)" v-if="k === formSubkategori.length - 1"><i class='bx bxs-plus-square bx-sm'></i></button>
+                            </div>
+                        <!-- +- End -->
                         </div>
                         <!-- Sub Kategori End -->
 
@@ -304,25 +311,19 @@
                         </div>
                         <!-- Deskripsi Jawaban End -->
 
-                        <!-- PIC -->
                         <div class="row mb-3">
-                            <label for="inputPic" class="col-sm-3 col-form-label">PIC</label>
+                            <!-- PIC -->
+                            <!-- <label for="inputPic" class="col-sm-3 col-form-label">PIC</label>
                             <div class="col-sm-7">
                                 <select v-model="input.pic_id" class="form-select form-select-sm" aria-label="Small select example" id="inputPic">
                                     <option value="" disabled selected>Pilih PIC...</option>
                                     <option v-for="(input, key) in pics" :key="key" :value="input.id">{{ input.nama }}</option>
                                 </select>
-                            </div>
+                            </div> -->
                             <!-- PIC End -->
-
-                            <!-- +- -->
-                            <div class="col-sm-2 d-flex align-items-center">
-                                <button type="button" class="btn btn-danger me-2" @click="removeForm(k)" v-if="formSubkategori.length > 1"><i class='bx bxs-checkbox-minus bx-sm'></i></button>
-                                <button type="button" class="btn btn-success" @click="addForm(k)" v-if="k === formSubkategori.length - 1"><i class='bx bxs-plus-square bx-sm'></i></button>
-                            </div>
-                            <!-- +- End -->
-
                         </div>
+
+                    
                     </div>
 
                     <!-- Simpan -->
@@ -384,19 +385,15 @@
                 </div>
                 <!-- Edit Sub Kategori End -->
 
-                <!-- Edit Deskripsi Jawaban -->
+            <!-- Edit Deskripsi Jawaban -->
                 <div class="row mb-3">
                     <label class="col-sm-3 col-form-label">DESKRIPSI JAWABAN</label>
                     <div class="col-sm-7">
-                        <div>
+                        <div >
                             <div class="row mb-3">
                                 <div class="col-sm-12">
-                                    <textarea v-model="editedSubCat.answer_text" class="form-control" :placeholder="`Masukkan Deskripsi Jawaban ${indAnswer + 1}`" rows="8"></textarea>
+                                    <textarea v-model="editedSubCat.answer_text" class="form-control" rows="8"></textarea>
                                 </div>
-                                <!-- <div class="col-sm-12 mt-2">
-                                        <button type="button" class="btn btn-danger btn-sm me-2" ><i class='bx bx-minus'></i></button>
-                                        <button type="button" class="btn btn-success btn-sm" ><i class='bx bx-plus'></i></button>
-                                    </div> -->
                             </div>
                         </div>
                     </div>
@@ -477,10 +474,11 @@
     <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">ICON FAQ</h5>
+                <h5 class="modal-title">ICON KATEGORI</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+                <input type="text" class="form-control mb-3" placeholder="Cari Ikon">
                 <div class="row g-3">
                     <div class="col-md-2" v-for="icon in dataIcons" :key="icon.name">
                         <div class="card">
